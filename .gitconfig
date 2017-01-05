@@ -58,7 +58,10 @@
 	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 	# List contributors with number of commits
-	contributors = shortlog --summary --numbered
+    contributors = shortlog --summary --numbered
+
+    st="status"
+    ph="push"
 
 	# Merge GitHub pull request on top of the current branch or,
 	# if a branch name is specified, on top of the specified branch
@@ -128,7 +131,7 @@
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	gpgsign = false
 
 [diff]
 
