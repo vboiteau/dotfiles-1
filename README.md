@@ -1,12 +1,12 @@
 # Vince adaptation of Mathias’s dotfiles
 
 ## Actual progress of customization
-[x] Add my vimrc
-[x] Add my .vim
-[x] Add my .gitignore
-[] Add powerline
-[] Add tmux conf
-[] Review and remove unwanted parts
+- [x] Add my vimrc
+- [x] Add my .vim
+- [x] Add my .gitignore
+- [ ] Add powerline
+- [ ] Add tmux conf
+- [ ] Review and remove unwanted parts
 
 ![Screenshot of my shell prompt](https://i.imgur.com/EkEtphC.png)
 
