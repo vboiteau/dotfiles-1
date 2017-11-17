@@ -1,0 +1,29 @@
+snippet li "info" b
+log.info ${1}
+endsnippet
+
+snippet le "Description" b
+log.error ${1:e}
+endsnippet
+
+snippet step "ProcessorStep" b
+package com.decksign.deckstripper.processor.step
+
+import groovy.util.logging.log4j
+
+@Log4j
+class ${1:Object}ProcessorStep${2:StepName} extends $1ProcessorStep {
+    $1ProcessorStep$2() {
+        super()
+    }
+
+    @Override
+    void processStep() {
+    }
+
+    @Override
+    String toString() {
+        return "$1ProcessorStep$2 on $${1/\w+\s*/\l$0/}"
+    }
+}
+endsnippet
