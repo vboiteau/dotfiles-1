@@ -26,7 +26,7 @@ nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
 " undo
 set undofile
-set undodir=~/.vim/undodir
+set undodir=~/.undodir
 
 " swp
 set backupdir=~/.swp_files
