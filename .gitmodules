@@ -1,0 +1,104 @@
+[submodule "ale"]
+	path = .vim/bundle/ale
+	url = git@github.com:w0rp/ale.git
+
+[submodule "c.vim"]
+	path = .vim/bundle/c.vim
+	url = https://github.com/vim-scripts/c.vim
+
+[submodule "dockerfile.vim"]
+	path = .vim/bundle/dockerfile.vim
+	url = https://github.com/ekalinin/dockerfile.vim
+
+[submodule "lightline-bufferline"]
+	path = .vim/bundle/lightline-bufferline
+	url = https://github.com/mgee/lightline-bufferline
+
+[submodule "lightline.vim"]
+	path = .vim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim
+
+[submodule "nerdcommenter"]
+	path = .vim/bundle/nerdcommenter
+	url = https://github.com/ddollar/nerdcommenter
+
+[submodule "nginx.vim"]
+	path = .vim/bundle/nginx.vim
+	url = https://github.com/vim-scripts/nginx.vim
+
+[submodule "plantuml-syntax"]
+	path = .vim/bundle/plantuml-syntax
+	url = https://github.com/aklt/plantuml-syntax
+
+[submodule "powerline"]
+	path = .vim/bundle/powerline
+	url = git@github.com:vboiteau/dotfiles.git
+
+[submodule "scss-syntax.vim"]
+	path = .vim/bundle/scss-syntax.vim
+	url = https://github.com/cakebaker/scss-syntax.vim
+
+[submodule "spacegray.vim"]
+	path = .vim/bundle/spacegray.vim
+	url = https://github.com/ajh17/spacegray.vim
+
+[submodule "tabular"]
+	path = .vim/bundle/tabular
+	url = https://github.com/godlygeek/tabular
+
+[submodule "ultisnips"]
+	path = .vim/bundle/ultisnips
+	url = https://github.com/sirver/ultisnips
+
+[submodule "vim-ava-snippets"]
+	path = .vim/bundle/vim-ava-snippets
+	url = https://github.com/ahmedelgabri/vim-ava-snippets
+
+[submodule "vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+
+[submodule "vim-gitgutter"]
+	path = .vim/bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+
+[submodule "vim-gradle"]
+	path = .vim/bundle/vim-gradle
+	url = https://github.com/tfnico/vim-gradle
+
+[submodule "vim-instant-markdown"]
+	path = .vim/bundle/vim-instant-markdown
+	url = https://github.com/terryma/vim-instant-markdown
+
+[submodule "vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+
+[submodule "vim-jsx"]
+	path = .vim/bundle/vim-jsx
+	url = https://github.com/mxw/vim-jsx
+
+[submodule "vim-mustache-handlebars"]
+	path = .vim/bundle/vim-mustache-handlebars
+	url = https://github.com/mustache/vim-mustache-handlebars
+
+[submodule "vim-react-snippets"]
+	path = .vim/bundle/vim-react-snippets
+	url = https://github.com/justinj/vim-react-snippets
+
+[submodule "vim-snippets"]
+	path = .vim/bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets
+
+[submodule "vim-tmux-navigator"]
+	path = .vim/bundle/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator
+
+[submodule "vimcompletesme"]
+	path = .vim/bundle/vimcompletesme
+	url = https://github.com/ajh17/vimcompletesme
+
+[submodule "webapi-vim"]
+	path = .vim/bundle/webapi-vim
+	url = https://github.com/mattn/webapi-vim
+
