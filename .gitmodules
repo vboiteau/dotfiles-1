@@ -102,6 +102,12 @@
 	path = .vim/bundle/webapi-vim
 	url = https://github.com/mattn/webapi-vim
 
-[submodule ".vim/bundle/vim-unimpaired"]
+[submodule "vim-unimpaired"]
 	path = .vim/bundle/vim-unimpaired
 	url = git@github.com:tpope/vim-unimpaired.git
+[submodule "vim-tmux"]
+	path = .vim/bundle/vim-tmux
+	url = git://github.com/tmux-plugins/vim-tmux.git
+[submodule "tpm"]
+	path = .tmux/plugins/tpm
+	url = git@github.com:tmux-plugins/tpm.git
