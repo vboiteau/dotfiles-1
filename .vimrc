@@ -253,10 +253,15 @@ let g:lightline = {
     \       'left': [ [ 'buffers' ] ]
     \   },
     \   'component_expand': {
-    \       'buffers': 'lightline#bufferline#buffers'
+    \       'buffers': 'lightline#bufferline#buffers',
+    \       'linter_warnings': 'lightline#ale#warnings',
+    \       'linter_errors': 'lightline#ale#errors',
+    \       'linter_ok': 'lightline#ale#ok'
     \   },
     \   'component_type': {
-    \       'buffers': 'tabsel'
+    \       'buffers': 'tabsel',
+    \       'linter_warnings': 'warning',
+    \       'linter_errors': 'error'
     \   },
     \   'component_function': {
     \       'gitbranch': 'fugitive#head'
@@ -266,4 +271,6 @@ let g:lightline = {
     \       'inactive': [ 'tabnum', 'filename', 'modified' ]
     \   }
     \ }
+
+let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
