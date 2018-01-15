@@ -105,12 +105,21 @@
 [submodule "vim-unimpaired"]
 	path = .vim/bundle/vim-unimpaired
 	url = git@github.com:tpope/vim-unimpaired.git
+
 [submodule "vim-tmux"]
 	path = .vim/bundle/vim-tmux
 	url = git://github.com/tmux-plugins/vim-tmux.git
+
 [submodule "tpm"]
 	path = .tmux/plugins/tpm
 	url = git@github.com:tmux-plugins/tpm.git
+
 [submodule "lightline-ale"]
 	path = .vim/bundle/lightline-ale
 	url = git@github.com:maximbaz/lightline-ale.git
+[submodule "kotlin-vim"]
+	path = .vim/bundle/kotlin-vim
+	url = https://github.com/udalov/kotlin-vim
+[submodule "coverage.vim"]
+	path = .vim/bundle/coverage.vim
+	url = https://github.com/ruanyl/coverage.vim

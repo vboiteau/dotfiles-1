@@ -54,3 +54,5 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 # Init jenv
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+
+source ~/.fzf.bash
