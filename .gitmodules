@@ -123,3 +123,12 @@
 [submodule "coverage.vim"]
 	path = .vim/bundle/coverage.vim
 	url = https://github.com/ruanyl/coverage.vim
+[submodule "obsession.vim"]
+	path = .vim/bundle/obsession.vim
+	url = https://github.com/tpope/vim-obsession
+[submodule "vim-autoformat"]
+	path = .vim/bundle/vim-autoformat
+	url = https://github.com/chiel92/vim-autoformat
+[submodule "ttags"]
+	path = .vim/bundle/ttags
+	url = https://github.com/tomtom/ttags_vim

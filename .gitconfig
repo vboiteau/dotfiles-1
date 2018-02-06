@@ -3,7 +3,6 @@
     name = "Vincent Boiteau-Robert"
 
 [alias]
-
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
@@ -64,8 +63,14 @@
 	# List contributors with number of commits
     contributors = shortlog --summary --numbered
 
-    st="status"
-    ph="push"
+    st=status
+    ph=push
+
+    local-branches=!git branch -vv | cut -c 3- | awk '$3 !~/\\[/ { print $1 }'
+
+    delete-local-branches="!for branch in `git local-branches`; do git branch -D $branch; done"
+
+    delete-gone-branches="!for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
 
 	# Merge GitHub pull request on top of the current branch or,
 	# if a branch name is specified, on top of the specified branch
@@ -82,6 +87,20 @@
 			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
 		fi \
 	}; f"
+    recent = !git for-each-ref --sort=committerdate --format='%(refname:short)' refs/heads/ | head -n 20
+    fixit = "!f() { git commit --fixup=$1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1; }; f"
+
+   # FZF OP
+    pam= !BRANCH=`git recent | fzf` && git checkout ${BRANCH}
+    pamadd= !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && git add --all ${FILES}
+    pamfix= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
+    pamshow= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git show `echo ${HASH} | awk '{ print $1 }'`
+    pamlog= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && echo ${HASH} | awk '{ print $1 }' | xargs echo -n | pbcopy
+    pamrebase= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
+    pamvim= !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && vim -O ${FILES}
+    pamgrep= !sh -c 'FILES=`git grep -l -A -0 -B 0 $1 $2 | fzf -x -m` && vim -O `echo ${FILES} | cut -d':' -f1 | xargs`' -
+	pamvimlog= !HASH=`git log --pretty=oneline | head -n 50 | fzf` && HASHZ=`echo ${HASH} | awk '{ print $1 }'` && FILES=`git show --pretty='format:' --name-only $HASHZ | grep -v -e '^$' | fzf -x -m` && vim -O ${FILES}
+	pamreset= !HASH=`git log --pretty=oneline | head -n 50 | fzf` && git reset --soft `echo ${HASH} | awk '{ print $1 }'`^
 
 [apply]
 
@@ -136,6 +155,7 @@
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
 	gpgsign = false
+    verbose = true
 
 [diff]
 
@@ -162,7 +182,7 @@
 	# Use the Git 1.x.x default to avoid errors on machines with old Git
 	# installations. To use `simple` instead, add this to your `~/.extra` file:
 	# `git config --global push.default simple`. See http://git.io/mMah-w.
-	default = matching
+	default = current
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
 

@@ -13,7 +13,6 @@ alias d="cd ~/Documents/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias p="cd ~/projects"
-alias g="git"
 alias h="history"
 alias j="jobs"
 
@@ -134,6 +133,8 @@ alias badge="tput bel"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
+alias git-prune="git fetch -p && git delete-local-branches && git delete-gone-branches"
+
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "$method"="lwp-request -m '$method'"
@@ -161,3 +162,5 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # for completion
 alias brew-cask="brew cask"
+
+alias etsvpn="sudo openconnect accesvpn.etsmtl.ca --authgroup=ETUDIANT -u vincent.boiteau-robert.1@ens.etsmtl.ca"
