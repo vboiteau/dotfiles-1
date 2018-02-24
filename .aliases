@@ -164,3 +164,4 @@ alias path='echo -e ${PATH//:/\\n}'
 alias brew-cask="brew cask"
 
 alias etsvpn="sudo openconnect accesvpn.etsmtl.ca --authgroup=ETUDIANT -u vincent.boiteau-robert.1@ens.etsmtl.ca"
+alias jtags="ctags -R . && sed -i '' -E '/^(if|switch|function|module\.exports|it|describe).+language:js$/d' tags"

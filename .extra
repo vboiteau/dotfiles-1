@@ -1,0 +1,22 @@
+#!/bin/bash
+function jenkins-status {
+    curlBase="curl --silent --show-error --user admin:36c8d1ead4685dc81abdae529a625155 https://ci.decksign.com/jenkins/"
+    eval "${curlBase}job/$1/job/$2/lastBuild/api/json" | jq . 
+}
+
+function jenkins-status-fzf {
+    curlBase="curl --silent --show-error --user admin:36c8d1ead4685dc81abdae529a625155 https://ci.decksign.com/jenkins/"
+    echo "select project:"
+    project=$(eval "${curlBase}api/json" | jq -r '.jobs[] | (.name)' | fzf)
+    echo "select branch:"
+    branch=$(eval "${curlBase}job/$project/api/json" | jq -r '.jobs[] | (.name)' | fzf)
+    jenkins-status $project $branch
+}
+
+function decksign {
+    cd ~/Projects/decksign/$(cd ~/Projects/decksign; find . -type d -mindepth 1 -maxdepth 2 | fzf)
+}
+
+function school {
+    cd ~/Projects/School/$(cd ~/Projects/school; find . -type d -mindepth 0 -maxdepth 0 | fzf)
+}

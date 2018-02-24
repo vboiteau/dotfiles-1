@@ -132,3 +132,12 @@
 [submodule "ttags"]
 	path = .vim/bundle/ttags
 	url = https://github.com/tomtom/ttags_vim
+[submodule "tlib"]
+	path = .vim/bundle/tlib
+	url = https://github.com/tomtom/tlib_vim
+[submodule "Tagbar"]
+	path = .vim/bundle/Tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "Scalpel"]
+	path = .vim/bundle/Scalpel
+	url = https://github.com/wincent/scalpel

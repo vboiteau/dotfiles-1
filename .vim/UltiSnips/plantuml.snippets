@@ -13,13 +13,13 @@ def completeDir(t):
 	return complete(t,['left','up','right','down'])
 endglobal
 
-snippet cl "class"
+snippet class
 class ${1:Name} {
 	$0
 }
 endsnippet
 
-snippet ms "message"
+snippet message
 ${1:source} "$4`!p snip.rv=completeCard(t[4])`" -$3`!p snip.rv=completeDir(t[3])`- "$5`!p snip.rv=completeCard(t[5])`" ${2:dest} : ${6:text} > 
 endsnippet
 
