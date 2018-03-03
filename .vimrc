@@ -54,6 +54,7 @@ if has("autocmd")
     autocmd FileType javascript UltiSnipsAddFiletypes javascript-node
     autocmd FileType javascript UltiSnipsAddFiletypes javascript-jsdoc
     autocmd BufNewFile,BufReadPost Jenkinsfile* set filetype=groovy
+    autocmd BufNewFile,BufReadPost *.puml set filetype=plantuml
     function! s:MkNonExDir(file, buf)
         if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
             let dir=fnamemodify(a:file, ':h')
@@ -92,7 +93,7 @@ inoremap <silent> ,l <C-x><C-l>
 inoremap <silent> ,n <C-x><C-n>
 inoremap <silent> ,o <C-x><C-o>
 inoremap <silent> ,t <C-x><C-]>
-inoremap <silent> ,u <C-x><C-u>
+inoremap <silent> ,z <C-x><C-z> <c-r>=<sid>ulti_complete()<cr>
 
 " leaders
 let mapleader = ","
@@ -108,9 +109,15 @@ map <leader>eT :tabe
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
+map <leader>fs :sf<space>%%
+map <leader>fw :find<space>%%
+map <leader>fv :vert sf<space>%%
+map <leader>fS :sf<space>
+map <leader>fW :find<space>
+map <leader>fV :vert sf<space>
 nnoremap <leader>a :argadd <c-r>=fnameescape(expand('%:p:h'))<cr>/<C-d>
 nnoremap <leader>b :b <C-d>
-nnoremap <leader>g :grep<space>
+nnoremap <leader>gp :grep<space>
 nnoremap <leader>i :ilist<space>
 nnoremap <leader>j :tjump /
 nnoremap <leader>m :make<cr>
@@ -122,11 +129,12 @@ nmap <leader>s :write<CR>
 
 
 "UltiSnips
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips', $HOME.'/.vim/bundle/vim-snippets/UltiSnips', $HOME.'.vim/bundle/vim-react-snippets/UltiSnips']
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips', $HOME.'/.vim/bundle/**/UltiSnips']
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsListSnippets = "<s-tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 "TMUX
@@ -273,4 +281,40 @@ let g:lightline = {
     \ }
 
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
+fu! s:ulti_complete() abort
+    if empty(UltiSnips#SnippetsInCurrentScope(1))
+        return ''
+    endif
+    let word_to_complete = matchstr(strpart(getline('.'), 0, col('.') - 1), '\S\+$')
+    let contain_word = 'stridx(v:val, word_to_complete)>=0'
+    let candidates = map(filter(keys(g:current_ulti_dict_info), contain_word),
+                   \  "{
+                   \      'word': v:val,
+                   \      'menu': '[snip] '. g:current_ulti_dict_info[v:val]['description'],
+                   \      'dup' : 1,
+                   \   }")
+    let from_where = col('.') - len(word_to_complete)
+    if !empty(candidates)
+        call complete(from_where, candidates)
+    endif
+    return ''
+endfu
 
+let g:instant_markdown_allow_unsafe_content = 1
+let g:instant_markdown_allow_external_content = 1
+" Show available tags
+noremap <Leader>g. :TTags<cr>
+
+" Show current buffer's tags
+noremap <Leader>g% :call ttags#List(0, "*", "", ".")<cr>
+
+" Show tags matching the word under cursor
+noremap <Leader>g# :call ttags#List(0, "*", tlib#rx#Escape(expand("<cword>")))<cr>
+
+" Show tags with a prefix matching the word under cursor
+noremap <Leader>g* :call ttags#List(0, "*", tlib#rx#Escape(expand("<cword>")) .".*")<cr>
+
+" Show tags matching the word under cursor (search also in |g:tlib_tags_extra|)
+noremap <Leader>g? :call ttags#List(1, "*", tlib#rx#Escape(expand("<cword>")))<cr>
+
+let g:coverage_json_report_path = 'coverage/coverage_final.json'

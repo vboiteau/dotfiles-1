@@ -13,6 +13,16 @@ def completeDir(t):
 	return complete(t,['left','up','right','down'])
 endglobal
 
+snippet puml
+@startuml
+skinparam style strictuml
+hide empty members
+title ${1:Title}
+
+$0
+@enduml
+endsnippet
+
 snippet class
 class ${1:Name} {
 	$0

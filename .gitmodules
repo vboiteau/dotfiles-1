@@ -141,3 +141,6 @@
 [submodule "Scalpel"]
 	path = .vim/bundle/Scalpel
 	url = https://github.com/wincent/scalpel
+[submodule "vimtex"]
+	path = .vim/bundle/vimtex
+	url = https://github.com/lervag/vimtex
