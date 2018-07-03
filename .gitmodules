@@ -2,10 +2,6 @@
 	path = .vim/bundle/ale
 	url = git@github.com:w0rp/ale.git
 
-[submodule "c.vim"]
-	path = .vim/bundle/c.vim
-	url = https://github.com/vim-scripts/c.vim
-
 [submodule "dockerfile.vim"]
 	path = .vim/bundle/dockerfile.vim
 	url = https://github.com/ekalinin/dockerfile.vim
@@ -30,29 +26,13 @@
 	path = .vim/bundle/plantuml-syntax
 	url = https://github.com/aklt/plantuml-syntax
 
-[submodule "powerline"]
-	path = .vim/bundle/powerline
-	url = git@github.com:vboiteau/dotfiles.git
-
 [submodule "scss-syntax.vim"]
 	path = .vim/bundle/scss-syntax.vim
 	url = https://github.com/cakebaker/scss-syntax.vim
 
-[submodule "spacegray.vim"]
-	path = .vim/bundle/spacegray.vim
-	url = https://github.com/ajh17/spacegray.vim
-
-[submodule "tabular"]
-	path = .vim/bundle/tabular
-	url = https://github.com/godlygeek/tabular
-
 [submodule "ultisnips"]
 	path = .vim/bundle/ultisnips
 	url = https://github.com/sirver/ultisnips
-
-[submodule "vim-ava-snippets"]
-	path = .vim/bundle/vim-ava-snippets
-	url = https://github.com/ahmedelgabri/vim-ava-snippets
 
 [submodule "vim-fugitive"]
 	path = .vim/bundle/vim-fugitive
@@ -61,10 +41,6 @@
 [submodule "vim-gitgutter"]
 	path = .vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
-
-[submodule "vim-gradle"]
-	path = .vim/bundle/vim-gradle
-	url = https://github.com/tfnico/vim-gradle
 
 [submodule "vim-instant-markdown"]
 	path = .vim/bundle/vim-instant-markdown
@@ -78,10 +54,6 @@
 	path = .vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx
 
-[submodule "vim-mustache-handlebars"]
-	path = .vim/bundle/vim-mustache-handlebars
-	url = https://github.com/mustache/vim-mustache-handlebars
-
 [submodule "vim-react-snippets"]
 	path = .vim/bundle/vim-react-snippets
 	url = https://github.com/justinj/vim-react-snippets
@@ -94,10 +66,6 @@
 	path = .vim/bundle/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator
 
-[submodule "vimcompletesme"]
-	path = .vim/bundle/vimcompletesme
-	url = https://github.com/ajh17/vimcompletesme
-
 [submodule "webapi-vim"]
 	path = .vim/bundle/webapi-vim
 	url = https://github.com/mattn/webapi-vim
@@ -106,10 +74,6 @@
 	path = .vim/bundle/vim-unimpaired
 	url = git@github.com:tpope/vim-unimpaired.git
 
-[submodule "vim-tmux"]
-	path = .vim/bundle/vim-tmux
-	url = git://github.com/tmux-plugins/vim-tmux.git
-
 [submodule "tpm"]
 	path = .tmux/plugins/tpm
 	url = git@github.com:tmux-plugins/tpm.git
@@ -117,30 +81,14 @@
 [submodule "lightline-ale"]
 	path = .vim/bundle/lightline-ale
 	url = git@github.com:maximbaz/lightline-ale.git
-[submodule "kotlin-vim"]
-	path = .vim/bundle/kotlin-vim
-	url = https://github.com/udalov/kotlin-vim
-[submodule "coverage.vim"]
-	path = .vim/bundle/coverage.vim
-	url = https://github.com/ruanyl/coverage.vim
+
 [submodule "obsession.vim"]
 	path = .vim/bundle/obsession.vim
 	url = https://github.com/tpope/vim-obsession
-[submodule "vim-autoformat"]
-	path = .vim/bundle/vim-autoformat
-	url = https://github.com/chiel92/vim-autoformat
-[submodule "ttags"]
-	path = .vim/bundle/ttags
-	url = https://github.com/tomtom/ttags_vim
-[submodule "tlib"]
-	path = .vim/bundle/tlib
-	url = https://github.com/tomtom/tlib_vim
-[submodule "Tagbar"]
-	path = .vim/bundle/Tagbar
-	url = https://github.com/majutsushi/tagbar
-[submodule "Scalpel"]
-	path = .vim/bundle/Scalpel
-	url = https://github.com/wincent/scalpel
-[submodule "vimtex"]
-	path = .vim/bundle/vimtex
-	url = https://github.com/lervag/vimtex
+
+[submodule "ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim
+[submodule "vim-coffee-script"]
+	path = .vim/bundle/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script

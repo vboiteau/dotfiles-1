@@ -1,29 +1,46 @@
 execute pathogen#infect()
+set runtimepath+=~/.vim/bundle/ultisnips/
 Helptags
 filetype plugin indent on
 syntax on
 set number
-set clipboard+=unnamed
+set clipboard=unnamed
 set relativenumber
-set runtimepath+=~/.vim/bundle/ultisnips/
 set showtabline=2
 set noshowmode
+
+inoremap <silent> ,f <C-x><C-f>
+inoremap <silent> ,F <C-x><C-F>
+inoremap <silent> ,i <C-x><C-i>
+inoremap <silent> ,l <C-x><C-l>
+inoremap <silent> ,n <C-x><C-n>
+inoremap <silent> ,o <C-x><C-o>
+inoremap <silent> ,t <C-x><C-]>
+inoremap <silent> ,z <C-x><C-z> <c-r>=<sid>ulti_complete()<cr>
+
 colorscheme Tomorrow-Night-Bright
 set foldcolumn=2
 set foldlevelstart=1
 set foldmethod=indent
 set wildmode=longest,list,full
 set wildmenu
-set path+=**
 set t_Co=256
 hi Normal ctermbg=NONE
 imap jj <ESC>
-set ts=4 sts=4 sw=4 expandtab
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 set exrc
 set laststatus=2
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
-
+if has('python3')
+    command! -nargs=1 Py py3 <args>
+    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.6/Python
+    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.6
+else
+    command! -nargs=1 Py py <args>
+    set pythondll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
+    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/Current
+endif
 " undo
 set undofile
 set undodir=~/.undodir
@@ -31,24 +48,26 @@ set undodir=~/.undodir
 " swp
 set backupdir=~/.swp_files
 set directory=~/.swp_files
-set cc=100,180
+set colorcolumn=100,180
 
 " netrw
 let g:netrw_banner = 0
 
 if has("autocmd")
-    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+    autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-    autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType scss setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType sass setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType markdown setlocal ts=4 sts=4 sw=4 expandtab
+    autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType sass setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType markdown setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
     autocmd bufwritepost .vimrc source $MYVIMRC
     autocmd FileType plantuml imap jj <ESC>:w<CR>
-    autocmd FileType plantuml set fmr=class*{,} fdm=marker fdc=1
+    autocmd FileType plantuml set foldmarker=class*{,} foldmethod=marker foldcolumn=1
     autocmd FileType xml vmap <C-b> :%!xmllint --encode UTF-8 --format -<CR>
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd FileType javascript UltiSnipsAddFiletypes javascript-node
@@ -84,16 +103,6 @@ if has("autocmd")
         autocmd FocusLost * set nocursorline
     augroup END
 endif
-
-let b:vm_tab_complete = "omni"
-inoremap <silent> ,f <C-x><C-f>
-inoremap <silent> ,F <C-x><C-F>
-inoremap <silent> ,i <C-x><C-i>
-inoremap <silent> ,l <C-x><C-l>
-inoremap <silent> ,n <C-x><C-n>
-inoremap <silent> ,o <C-x><C-o>
-inoremap <silent> ,t <C-x><C-]>
-inoremap <silent> ,z <C-x><C-z> <c-r>=<sid>ulti_complete()<cr>
 
 " leaders
 let mapleader = ","
@@ -132,9 +141,8 @@ nmap <leader>s :write<CR>
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips', $HOME.'/.vim/bundle/**/UltiSnips']
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsListSnippets = "<s-tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 
 "TMUX
@@ -169,6 +177,7 @@ set backspace=indent,eol,start
 set shell=/bin/bash
 
 "ALE
+let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
 let g:ale_set_loclist = 1
 let g:jsx_ext_required=0
@@ -179,7 +188,7 @@ let g:ale_linters = {
         \ }
 let g:javascript_plugin_jsdoc = 1
 let g:ale_linter_aliases = {'jsx': 'css'}
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0 
 let g:ale_fixers = {
         \   'javascript': ['eslint'],
         \   'jsx': ['eslint'],
@@ -192,39 +201,6 @@ if executable("ag")
     set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
-
-function! Wipeout()
- " list of *all* buffer numbers
- let l:buffers = range(1, bufnr('$'))
-
-  " what tab page are we in?
-  let l:currentTab = tabpagenr()
-  try
-    " go through all tab pages
-    let l:tab = 0
-    while l:tab < tabpagenr('$')
-      let l:tab += 1
-
-      " go through all windows
-      let l:win = 0
-      while l:win < winnr('$')
-        let l:win += 1
-        " whatever buffer is in this window in this tab, remove it from
-        " l:buffers list
-        let l:thisbuf = winbufnr(l:win)
-        call remove(l:buffers, index(l:buffers, l:thisbuf))
-      endwhile
-    endwhile
-
-    " if there are any buffers left, delete them
-    if len(l:buffers)
-      execute 'bwipeout' join(l:buffers)
-    endif
-  finally
-    " go back to our original tab page
-    execute 'tabnext' l:currentTab
-  endtry
-endfunction
 
 function! MyTabFilename(n)
   let buflist = tabpagebuflist(a:n)
@@ -281,40 +257,18 @@ let g:lightline = {
     \ }
 
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
-fu! s:ulti_complete() abort
-    if empty(UltiSnips#SnippetsInCurrentScope(1))
-        return ''
-    endif
-    let word_to_complete = matchstr(strpart(getline('.'), 0, col('.') - 1), '\S\+$')
-    let contain_word = 'stridx(v:val, word_to_complete)>=0'
-    let candidates = map(filter(keys(g:current_ulti_dict_info), contain_word),
-                   \  "{
-                   \      'word': v:val,
-                   \      'menu': '[snip] '. g:current_ulti_dict_info[v:val]['description'],
-                   \      'dup' : 1,
-                   \   }")
-    let from_where = col('.') - len(word_to_complete)
-    if !empty(candidates)
-        call complete(from_where, candidates)
-    endif
-    return ''
-endfu
 
 let g:instant_markdown_allow_unsafe_content = 1
 let g:instant_markdown_allow_external_content = 1
-" Show available tags
-noremap <Leader>g. :TTags<cr>
 
-" Show current buffer's tags
-noremap <Leader>g% :call ttags#List(0, "*", "", ".")<cr>
+nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>gb :bufdo bd<cr>
+nnoremap <leader>S :s/\<<C-r><C-w>\>/
+nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
 
-" Show tags matching the word under cursor
-noremap <Leader>g# :call ttags#List(0, "*", tlib#rx#Escape(expand("<cword>")))<cr>
-
-" Show tags with a prefix matching the word under cursor
-noremap <Leader>g* :call ttags#List(0, "*", tlib#rx#Escape(expand("<cword>")) .".*")<cr>
-
-" Show tags matching the word under cursor (search also in |g:tlib_tags_extra|)
-noremap <Leader>g? :call ttags#List(1, "*", tlib#rx#Escape(expand("<cword>")))<cr>
-
-let g:coverage_json_report_path = 'coverage/coverage_final.json'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_regexp=1
+if has("termguicolors")
+    set termguicolors
+endif

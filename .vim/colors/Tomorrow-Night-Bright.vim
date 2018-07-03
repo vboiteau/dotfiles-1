@@ -4,19 +4,20 @@
 " Hex colour conversion functions borrowed from the theme "Desert256""
 
 " Default GUI Colours
-let s:foreground = "eaeaea"
-let s:background = "080808"
-let s:selection = "424242"
-let s:line = "2a2a2a"
-let s:comment = "969896"
-let s:red = "d54e53"
-let s:orange = "e78c45"
-let s:yellow = "e7c547"
-let s:green = "bfda8a"
-let s:aqua = "70c0b1"
-let s:blue = "7aa6da"
-let s:purple = "c397d8"
-let s:window = "4d5057"
+let s:foreground = "cbcbcb"
+let s:background = "1d2023"
+let s:selection = "1f282d"
+let s:linenum = "788089"
+let s:line = "788089"
+let s:comment = "7a7d80"
+let s:red = "d3716e"
+let s:orange = "ffa85e"
+let s:yellow = "f2ca7d"
+let s:green = "c6cc68"
+let s:aqua = "91c3be"
+let s:blue = "89aac4"
+let s:purple = "dcc4e3"
+let s:window = "1d2023"
 
 set background=dark
 hi clear
@@ -234,7 +235,8 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
     
 	" Vim Highlighting
 	call <SID>X("Normal", s:foreground, s:background, "")
-	call <SID>X("LineNr", s:selection, "", "")
+	call <SID>X("LineNr", s:linenum, "", "")
+	call <SID>X("CursorLineNr", s:yellow, "", "")
 	call <SID>X("NonText", s:selection, "", "")
 	call <SID>X("SpecialKey", s:selection, "", "")
 	call <SID>X("Search", s:background, s:yellow, "")
@@ -244,6 +246,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	call <SID>X("StatusLineNC", s:window, s:foreground, "reverse")
 	call <SID>X("VertSplit", s:window, s:window, "none")
 	call <SID>X("Visual", "", s:selection, "")
+	call <SID>X("CursorLine", "", s:selection, "")
 	call <SID>X("Directory", s:blue, "", "")
 	call <SID>X("ModeMsg", s:green, "", "")
 	call <SID>X("MoreMsg", s:green, "", "")
@@ -253,7 +256,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	call <SID>X("Folded", s:comment, s:background, "")
 	call <SID>X("FoldColumn", "", s:background, "")
 	if version >= 700
-		call <SID>X("CursorLine", "", s:line, "none")
+		call <SID>X("CursorLine", "", s:selection, "none")
 		call <SID>X("CursorColumn", "", s:line, "none")
 		call <SID>X("PMenu", s:foreground, s:selection, "none")
 		call <SID>X("PMenuSel", s:foreground, s:selection, "reverse")
@@ -351,13 +354,15 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	call <SID>X("htmlScriptTag", s:red, "", "")
 
 	" Diff Highlighting
-	call <SID>X("diffAdded", s:green, s:window, "")
-	call <SID>X("diffRemoved", s:red, s:window, "")
-	call <SID>X("DiffAdd", s:green, s:window, "")
-	call <SID>X("DiffDelete", s:red, s:window, "")
-	call <SID>X("DiffChange", s:yellow, s:window, "")
-	call <SID>X("DiffText", s:orange, s:window, "")
-    
+	call <SID>X("diffAdded", s:green, "", "")
+	call <SID>X("diffRemoved", s:red, "", "")
+	call <SID>X("DiffAdd", s:green, "", "")
+	call <SID>X("DiffDelete", s:red, "", "")
+	call <SID>X("DiffChange", s:yellow, "", "")
+	call <SID>X("DiffText", s:orange, "", "")
+
+    " git commit 
+	call <SID>X("gitcommitFile", s:yellow, "", "")
 
 	" Delete Functions
 	delf <SID>X

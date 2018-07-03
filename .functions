@@ -239,3 +239,4 @@ function tre() {
 function ncufu {
     ncu -f $(ls node_modules | fzf) -u
 }
+function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
