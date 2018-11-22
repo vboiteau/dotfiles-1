@@ -9,7 +9,6 @@ set relativenumber
 set showtabline=2
 set noshowmode
 
-inoremap <silent> ,f <C-x><C-f>
 inoremap <silent> ,F <C-x><C-F>
 inoremap <silent> ,i <C-x><C-i>
 inoremap <silent> ,l <C-x><C-l>
@@ -18,7 +17,7 @@ inoremap <silent> ,o <C-x><C-o>
 inoremap <silent> ,t <C-x><C-]>
 inoremap <silent> ,z <C-x><C-z> <c-r>=<sid>ulti_complete()<cr>
 
-colorscheme Tomorrow-Night-Bright
+colorscheme Nord
 set foldcolumn=2
 set foldlevelstart=1
 set foldmethod=indent
@@ -26,6 +25,8 @@ set wildmode=longest,list,full
 set wildmenu
 set t_Co=256
 hi Normal ctermbg=NONE
+hi Normal guibg=NONE ctermbg=NONE
+inoremap <silent> ,f <C-x><C-f>
 imap jj <ESC>
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 set exrc
@@ -34,8 +35,8 @@ nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 if has('python3')
     command! -nargs=1 Py py3 <args>
-    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.6/Python
-    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.6
+    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.7/Python
+    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.7
 else
     command! -nargs=1 Py py <args>
     set pythondll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
@@ -125,7 +126,6 @@ map <leader>fS :sf<space>
 map <leader>fW :find<space>
 map <leader>fV :vert sf<space>
 nnoremap <leader>a :argadd <c-r>=fnameescape(expand('%:p:h'))<cr>/<C-d>
-nnoremap <leader>b :b <C-d>
 nnoremap <leader>gp :grep<space>
 nnoremap <leader>i :ilist<space>
 nnoremap <leader>j :tjump /
@@ -227,8 +227,10 @@ endfunction
 
 let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#show_number = 1
+let g:lightline#bufferline#enable_devicons = 1
 
 let g:lightline = {
+    \    'colorscheme': 'nord',
     \   'active': {
     \       'left': [ [ 'mode', 'paste' ],
     \           [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ],
@@ -248,7 +250,9 @@ let g:lightline = {
     \       'linter_errors': 'error'
     \   },
     \   'component_function': {
-    \       'gitbranch': 'fugitive#head'
+    \       'gitbranch': 'fugitive#head',
+    \       'filetype': 'MyFiletype',
+    \       'fileformat': 'MyFileformat',
     \   },
     \   'tab': {
     \       'active': [ 'tabnum', 'filename', 'modified' ],
@@ -256,19 +260,42 @@ let g:lightline = {
     \   }
     \ }
 
+function! MyFiletype()
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! MyFileformat()
+    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
 let g:instant_markdown_allow_unsafe_content = 1
 let g:instant_markdown_allow_external_content = 1
 
 nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>gb :bufdo bd<cr>
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
 
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_regexp=1
 if has("termguicolors")
     set termguicolors
 endif
+
+let g:ctrlp_max_files = 200000
+let g:ctrlp_max_depth = 80
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|coverage'

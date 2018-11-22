@@ -14,9 +14,14 @@ function jenkins-status-fzf {
 }
 
 function decksign {
-    cd ~/Projects/decksign/$(cd ~/Projects/decksign; find . -type d -mindepth 1 -maxdepth 2 | fzf)
+    cd ~/Projects/decksign/$(cd ~/Projects/decksign; find . -type d -exec test -e '{}/.git' ';' -print -prune -maxdepth 3 | fzf)
 }
 
 function school {
     cd ~/Projects/School/$(cd ~/Projects/school; find . -type d -mindepth 0 -maxdepth 0 | fzf)
+}
+
+function tfpp {
+    tmux save-buffer "${TMPDIR}tmux-buffer"
+    sh -c 'cat ${TMPDIR}tmux-buffer' | fpp; rm "${TMPDIR}tmux-buffer"
 }
