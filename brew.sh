@@ -90,7 +90,7 @@ brew cask install caffeine
 brew cask install dash
 brew cask install docker
 brew cask install dropbox
-brew cask install font-fira-code-nerd-font-mono
+brew cask install font-fira-code-nerd-font
 brew cask install google-chrome
 brew cask install harvest
 brew cask install intellij-idea-ce
