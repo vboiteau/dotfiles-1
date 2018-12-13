@@ -1,8 +1,5 @@
---exclude=.git
---exclude=.hg
---exclude=log
---exclude=tmp
 --exclude=node_modules
+--exclude=gulp
 --languages=-javascript
 --langdef=js
 --langmap=js:.js
