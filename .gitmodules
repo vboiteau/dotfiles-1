@@ -81,3 +81,12 @@
 [submodule "nord-vim"]
 	path = .vim/bundle/nord-vim
 	url = https://github.com/arcticicestudio/nord-vim
+[submodule "surround.vim"]
+	path = .vim/bundle/surround.vim
+	url = https://github.com/tpope/vim-surround
+[submodule "vim-devicons"]
+	path = .vim/bundle/vim-devicons
+	url = https://github.com/ryanoasis/vim-devicons
+[submodule "Tabular"]
+	path = .vim/bundle/Tabular
+	url = https://github.com/godlygeek/tabular
