@@ -42,10 +42,6 @@
 	path = .vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
 
-[submodule "vim-instant-markdown"]
-	path = .vim/bundle/vim-instant-markdown
-	url = https://github.com/terryma/vim-instant-markdown
-
 [submodule "vim-javascript"]
 	path = .vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
@@ -54,10 +50,6 @@
 	path = .vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx
 
-[submodule "vim-react-snippets"]
-	path = .vim/bundle/vim-react-snippets
-	url = https://github.com/justinj/vim-react-snippets
-
 [submodule "vim-snippets"]
 	path = .vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets
@@ -65,10 +57,6 @@
 [submodule "vim-tmux-navigator"]
 	path = .vim/bundle/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator
-
-[submodule "webapi-vim"]
-	path = .vim/bundle/webapi-vim
-	url = https://github.com/mattn/webapi-vim
 
 [submodule "vim-unimpaired"]
 	path = .vim/bundle/vim-unimpaired
@@ -89,15 +77,7 @@
 [submodule "ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim
-[submodule "vim-coffee-script"]
-	path = .vim/bundle/vim-coffee-script
-	url = https://github.com/kchmck/vim-coffee-script
-[submodule "jenkinsfile-vim-syntax"]
-	path = .vim/bundle/jenkinsfile-vim-syntax
-	url = https://github.com/martinda/jenkinsfile-vim-syntax
+
 [submodule "nord-vim"]
 	path = .vim/bundle/nord-vim
 	url = https://github.com/arcticicestudio/nord-vim
-[submodule "todo.txt-vim"]
-	path = .vim/bundle/todo.txt-vim
-	url = https://github.com/freitass/todo.txt-vim

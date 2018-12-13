@@ -9,13 +9,12 @@ set relativenumber
 set showtabline=2
 set noshowmode
 
-inoremap <silent> ,F <C-x><C-F>
-inoremap <silent> ,i <C-x><C-i>
-inoremap <silent> ,l <C-x><C-l>
-inoremap <silent> ,n <C-x><C-n>
-inoremap <silent> ,o <C-x><C-o>
-inoremap <silent> ,t <C-x><C-]>
-inoremap <silent> ,z <C-x><C-z> <c-r>=<sid>ulti_complete()<cr>
+inoremap <silent> ,F <c-x><C-F>
+inoremap <silent> ,i <c-x><C-i>
+inoremap <silent> ,l <c-x><C-l>
+inoremap <silent> ,n <c-x><C-n>
+inoremap <silent> ,o <c-x><C-o>
+inoremap <silent> ,t <c-x><C-]>
 
 colorscheme Nord
 set foldcolumn=2
@@ -177,7 +176,6 @@ set backspace=indent,eol,start
 set shell=/bin/bash
 
 "ALE
-let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
 let g:ale_set_loclist = 1
 let g:jsx_ext_required=0
@@ -188,7 +186,7 @@ let g:ale_linters = {
         \ }
 let g:javascript_plugin_jsdoc = 1
 let g:ale_linter_aliases = {'jsx': 'css'}
-let g:ale_fix_on_save = 0 
+let g:ale_fix_on_save = 1 
 let g:ale_fixers = {
         \   'javascript': ['eslint'],
         \   'jsx': ['eslint'],
@@ -225,7 +223,7 @@ function! MyTabFilename(n)
   endif
 endfunction
 
-let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#enable_devicons = 1
 
@@ -281,19 +279,14 @@ nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
-let g:instant_markdown_allow_unsafe_content = 1
-let g:instant_markdown_allow_external_content = 1
-
-nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>. :CtrlPBufTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>gb :bufdo bd<cr>
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
+nnoremap <leader>gP :Ggrep "\<<C-r><c-w>\>"
 
 let g:ctrlp_map = '<c-p>'
-if has("termguicolors")
-    set termguicolors
-endif
 
 let g:ctrlp_max_files = 200000
 let g:ctrlp_max_depth = 80
