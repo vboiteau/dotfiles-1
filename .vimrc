@@ -1,5 +1,3 @@
-execute pathogen#infect()
-
 set runtimepath+=~/.vim/bundle/ultisnips/
 
 call plug#begin('~/.vim/bundle')
@@ -11,7 +9,6 @@ endif
 Plug 'w0rp/ale'
 Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/ctags.vim'
-Plug 'kien/ctrlp.vim'
 Plug 'ekalinin/dockerfile.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/lightline.vim'
@@ -26,6 +23,8 @@ Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 filetype plugin indent on
@@ -38,9 +37,18 @@ set noshowmode
 
 set omnifunc=syntaxcomplete#Complete
 
+"TMUX
+let g:tmux_navigator_no_mappings = 1
+let g:tmux_navigator_save_on_switch = 1
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>let g:tmux_navigator_save_on_switch = 2
+set t_Co=256
+
 inoremap <silent> ,F <c-x><C-F>
 inoremap <silent> ,i <c-x><C-i>
-inoremap <silent> ,l <c-x><C-l>
 inoremap <silent> ,n <c-x><C-n>
 inoremap <silent> ,o <c-x><C-o>
 inoremap <silent> ,t <c-x><C-]>
@@ -161,7 +169,6 @@ nnoremap <leader>j :tjump /
 nnoremap <leader>m :make<cr>
 nnoremap <leader>q :b#<cr>
 map <leader>l :ls<CR>
-nmap <silent> <C-S-L> <Plug>(jsdoc)
 nmap <leader>v :tabedit $MYVIMRC<CR>
 nmap <leader>s :write<CR>
 
@@ -173,14 +180,6 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
-
-"TMUX
-let g:tmux_navigator_no_mappings = 1
-nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
-nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>let g:tmux_navigator_save_on_switch = 2
 
 
 
@@ -214,7 +213,7 @@ let g:ale_linters = {
         \   'jsx': ['eslint'],
         \   'java': []
         \ }
-let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_jsdoc = 0
 let g:ale_linter_aliases = {'jsx': 'css'}
 let g:ale_fix_on_save = 1 
 let g:ale_fixers = {
@@ -293,19 +292,15 @@ nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
-nnoremap <leader>. :CtrlPBufTag<cr>
-nnoremap <localleader>. :CtrlPTag<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>t :BTags<cr>
+nnoremap <localleader>t :Tags<cr>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>c :BCommits<cr>
+nnoremap <localleader>c :Commits<cr>
+nnoremap <leader>f :GFiles<cr>
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
 nnoremap <leader>gP :Ggrep "\<<C-r><c-w>\>"
-
-let g:ctrlp_map = '<c-p>'
-
-let g:ctrlp_max_files = 200000
-let g:ctrlp_max_depth = 80
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|coverage'
 
 " Show syntax highlighting groups for word under cursor
 nmap <F2> :call <SID>SynStack()<CR>
