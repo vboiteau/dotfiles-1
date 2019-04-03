@@ -14,10 +14,6 @@
 	path = .vim/bundle/lightline.vim
 	url = https://github.com/itchyny/lightline.vim
 
-[submodule "nerdcommenter"]
-	path = .vim/bundle/nerdcommenter
-	url = https://github.com/ddollar/nerdcommenter
-
 [submodule "nginx.vim"]
 	path = .vim/bundle/nginx.vim
 	url = https://github.com/vim-scripts/nginx.vim
@@ -84,9 +80,12 @@
 [submodule "surround.vim"]
 	path = .vim/bundle/surround.vim
 	url = https://github.com/tpope/vim-surround
-[submodule "vim-devicons"]
-	path = .vim/bundle/vim-devicons
-	url = https://github.com/ryanoasis/vim-devicons
 [submodule "Tabular"]
 	path = .vim/bundle/Tabular
 	url = https://github.com/godlygeek/tabular
+[submodule "vim-graphql"]
+	path = .vim/bundle/vim-graphql
+	url = https://github.com/jparise/vim-graphql
+[submodule "commentary.vim"]
+	path = .vim/bundle/commentary.vim
+	url = https://github.com/tpope/vim-commentary

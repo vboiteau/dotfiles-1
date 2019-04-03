@@ -1,6 +1,33 @@
 execute pathogen#infect()
+
 set runtimepath+=~/.vim/bundle/ultisnips/
-Helptags
+
+call plug#begin('~/.vim/bundle')
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+Plug 'w0rp/ale'
+Plug 'tpope/vim-commentary'
+Plug 'vim-scripts/ctags.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'ekalinin/dockerfile.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'itchyny/lightline.vim'
+Plug 'sirver/ultisnips'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'jparise/vim-graphql'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'honza/vim-snippets'
+Plug 'tpope/vim-surround'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-unimpaired'
+call plug#end()
+
 filetype plugin indent on
 syntax on
 set number
@@ -9,13 +36,16 @@ set relativenumber
 set showtabline=2
 set noshowmode
 
+set omnifunc=syntaxcomplete#Complete
+
 inoremap <silent> ,F <c-x><C-F>
 inoremap <silent> ,i <c-x><C-i>
 inoremap <silent> ,l <c-x><C-l>
 inoremap <silent> ,n <c-x><C-n>
 inoremap <silent> ,o <c-x><C-o>
 inoremap <silent> ,t <c-x><C-]>
-
+let g:nord_italic=1
+let g:nord_italic_comments=1
 colorscheme Nord
 set foldcolumn=2
 set foldlevelstart=1
@@ -195,11 +225,6 @@ let g:ale_fixers = {
 
 set statusline=%{mode()}\ %F\ %{fugitive#statusline()}\ %m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
-if executable("ag")
-    set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
-
 function! MyTabFilename(n)
   let buflist = tabpagebuflist(a:n)
   let winnr = tabpagewinnr(a:n)
@@ -225,7 +250,6 @@ endfunction
 
 let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#show_number = 1
-let g:lightline#bufferline#enable_devicons = 1
 
 let g:lightline = {
     \    'colorscheme': 'nord',
@@ -248,23 +272,13 @@ let g:lightline = {
     \       'linter_errors': 'error'
     \   },
     \   'component_function': {
-    \       'gitbranch': 'fugitive#head',
-    \       'filetype': 'MyFiletype',
-    \       'fileformat': 'MyFileformat',
+    \       'gitbranch': 'fugitive#head'
     \   },
     \   'tab': {
     \       'active': [ 'tabnum', 'filename', 'modified' ],
     \       'inactive': [ 'tabnum', 'filename', 'modified' ]
     \   }
     \ }
-
-function! MyFiletype()
-    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-endfunction
-
-function! MyFileformat()
-    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-endfunction
 
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
 nmap <Leader>2 <Plug>lightline#bufferline#go(2)
@@ -280,8 +294,8 @@ nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
 nnoremap <leader>. :CtrlPBufTag<cr>
+nnoremap <localleader>. :CtrlPTag<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>gb :bufdo bd<cr>
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
 nnoremap <leader>gP :Ggrep "\<<C-r><c-w>\>"
@@ -292,3 +306,18 @@ let g:ctrlp_max_files = 200000
 let g:ctrlp_max_depth = 80
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|coverage'
+
+" Show syntax highlighting groups for word under cursor
+nmap <F2> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
