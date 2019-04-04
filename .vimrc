@@ -292,12 +292,18 @@ nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
 let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
+
 nnoremap <leader>t :BTags<cr>
 nnoremap <localleader>t :Tags<cr>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>c :BCommits<cr>
 nnoremap <localleader>c :Commits<cr>
 nnoremap <leader>f :GFiles<cr>
+nnoremap <leader>F :GFiles?<cr>
+nnoremap <localleader>f :Files<cr>
+nnoremap <leader>h :Helptags<cr>
+nnoremap <localleader>s :Snippets<cr>
+
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
 nnoremap <leader>gP :Ggrep "\<<C-r><c-w>\>"
