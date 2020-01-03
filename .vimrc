@@ -8,23 +8,23 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 Plug 'w0rp/ale'
 Plug 'tpope/vim-commentary'
-Plug 'vim-scripts/ctags.vim'
 Plug 'ekalinin/dockerfile.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/lightline.vim'
 Plug 'sirver/ultisnips'
-Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'aklt/plantuml-syntax'
+Plug 'tyru/open-browser.vim'
+Plug 'tpope/vim-dispatch'
+Plug 'rhysd/vim-grammarous'
 call plug#end()
 
 filetype plugin indent on
@@ -83,64 +83,10 @@ endif
 set undofile
 set undodir=~/.undodir
 
-" swp
-set backupdir=~/.swp_files
-set directory=~/.swp_files
 set colorcolumn=100,180
 
 " netrw
 let g:netrw_banner = 0
-
-if has("autocmd")
-    autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
-    autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-
-    autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType sass setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType markdown setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-    autocmd bufwritepost .vimrc source $MYVIMRC
-    autocmd FileType plantuml imap jj <ESC>:w<CR>
-    autocmd FileType plantuml set foldmarker=class*{,} foldmethod=marker foldcolumn=1
-    autocmd FileType xml vmap <C-b> :%!xmllint --encode UTF-8 --format -<CR>
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-    autocmd FileType javascript UltiSnipsAddFiletypes javascript-node
-    autocmd FileType javascript UltiSnipsAddFiletypes javascript-jsdoc
-    autocmd BufNewFile,BufReadPost Jenkinsfile* set filetype=groovy
-    autocmd BufNewFile,BufReadPost *.puml set filetype=plantuml
-    function! s:MkNonExDir(file, buf)
-        if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-            let dir=fnamemodify(a:file, ':h')
-            if !isdirectory(dir)
-                call mkdir(dir, 'p')
-            endif
-        endif
-    endfunction
-    augroup BWCCreateDir
-        autocmd!
-        autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
-    augroup END
-    augroup FileTypeGroup
-        autocmd!
-        au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
-    augroup END
-
-    augroup highlight_follows_focus
-        autocmd!
-        autocmd WinEnter * set cursorline
-        autocmd WinLeave * set nocursorline
-    augroup END
-
-    augroup hightlight_follows_vim
-        autocmd!
-        autocmd FocusGained * set cursorline
-        autocmd FocusLost * set nocursorline
-    augroup END
-endif
 
 " leaders
 let mapleader = ","
@@ -205,21 +151,24 @@ set backspace=indent,eol,start
 set shell=/bin/bash
 
 "ALE
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_open_list = 0
 let g:jsx_ext_required=0
 let g:ale_linters = {
         \   'javascript': ['eslint'],
         \   'jsx': ['eslint'],
+        \   'typescript': ['tslint'],
         \   'java': []
         \ }
 let g:javascript_plugin_jsdoc = 0
 let g:ale_linter_aliases = {'jsx': 'css'}
-let g:ale_fix_on_save = 1 
+let g:ale_fix_on_save = 1
 let g:ale_fixers = {
         \   'javascript': ['eslint'],
-        \   'jsx': ['eslint'],
-        \   'java': []
+        \   'java': [],
+        \   'typescript': ['tslint']
         \ }
 
 set statusline=%{mode()}\ %F\ %{fugitive#statusline()}\ %m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
@@ -247,37 +196,52 @@ function! MyTabFilename(n)
   endif
 endfunction
 
-let g:lightline#bufferline#shorten_path = 1
+let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#show_number = 1
 
-let g:lightline = {
-    \    'colorscheme': 'nord',
-    \   'active': {
-    \       'left': [ [ 'mode', 'paste' ],
-    \           [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ],
-    \   },
-    \   'tabline': {
-    \       'left': [ [ 'buffers' ] ]
-    \   },
-    \   'component_expand': {
-    \       'buffers': 'lightline#bufferline#buffers',
-    \       'linter_warnings': 'lightline#ale#warnings',
-    \       'linter_errors': 'lightline#ale#errors',
-    \       'linter_ok': 'lightline#ale#ok'
-    \   },
-    \   'component_type': {
-    \       'buffers': 'tabsel',
-    \       'linter_warnings': 'warning',
-    \       'linter_errors': 'error'
-    \   },
-    \   'component_function': {
-    \       'gitbranch': 'fugitive#head'
-    \   },
-    \   'tab': {
-    \       'active': [ 'tabnum', 'filename', 'modified' ],
-    \       'inactive': [ 'tabnum', 'filename', 'modified' ]
-    \   }
+let g:lightline = {}
+
+let g:lightline.colorscheme = 'nord'
+
+let g:lightline.component_function = {
+            \   'fugitive': 'LightlineFugitive',
+            \   'readonly': 'LightlineReadonly'
+            \}
+
+let g:lightline.component_visible_condition = {
+            \   'readonly': '(&filetype!="help"&& &readonly)'
+            \}
+
+let g:lightline.component_expand = {
+    \   'linter_checking': 'lightline#ale#checking',
+    \   'linter_warnings': 'lightline#ale#warnings',
+    \   'linter_errors': 'lightline#ale#errors',
+    \   'linter_ok': 'lightline#ale#ok',
     \ }
+
+
+let g:lightline.component_type = {
+    \   'linter_checking': 'left',
+    \   'linter_warnings': 'warning',
+    \   'linter_errors': 'error',
+    \   'linter_ok': 'left',
+    \}
+
+let g:lightline.active = { 
+    \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ],
+    \   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], [ 'fugitive' ]]
+    \}
+
+function! LightlineReadonly()
+    return &readonly ? '' : ''
+endfunction
+function! LightlineFugitive()
+    if exists('*fugitive#head')
+        let branch = fugitive#head()
+        return branch !=# '' ? ''.branch : ''
+    endif
+    return ''
+endfunction
 
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
 nmap <Leader>2 <Plug>lightline#bufferline#go(2)
@@ -290,7 +254,6 @@ nmap <Leader>8 <Plug>lightline#bufferline#go(8)
 nmap <Leader>9 <Plug>lightline#bufferline#go(9)
 nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
-let g:lightline.active.right = [ [ 'linter_errors', 'linter_warnings', 'linter_ok' ],  [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ]]
 
 
 nnoremap <leader>t :BTags<cr>
@@ -302,7 +265,6 @@ nnoremap <leader>f :GFiles<cr>
 nnoremap <leader>F :GFiles?<cr>
 nnoremap <localleader>f :Files<cr>
 nnoremap <leader>h :Helptags<cr>
-nnoremap <localleader>s :Snippets<cr>
 
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
@@ -321,4 +283,31 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+set tags='.git/tags'
+
+" Try to keep backups in one system-appropriate dir
+set backup
+set backupdir^=~/.vim/cache/backup
+if has('win32') || has('win64')
+  set backupdir-=~/.vim/cache/backup
+  set backupdir^=~/vimfiles/cache/backup
+endif" swp
+
+" Try to keep swapfiles in one system-appropriate dir
+set directory^=~/.vim/cache/swap//
+if has('win32') || has('win64')
+  set directory-=~/.vim/cache/swap//
+  set directory^=~/vimfiles/cache/swap//
+endif
+
+" Keep undo files, hopefully in a dedicated directory
+if has('persistent_undo')
+  set undofile
+  set undodir^=~/.vim/cache/undo//
+  if has('win32') || has('win64')
+    set undodir-=~/.vim/cache/undo//
+    set undodir^=~/vimfiles/cache/undo//
+  endif
 endif
