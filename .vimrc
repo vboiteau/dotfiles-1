@@ -25,6 +25,9 @@ Plug 'aklt/plantuml-syntax'
 Plug 'tyru/open-browser.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'rhysd/vim-grammarous'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'leafgarland/typescript-vim'
+Plug 'mtth/scratch.vim'
 call plug#end()
 
 filetype plugin indent on
@@ -118,16 +121,13 @@ map <leader>l :ls<CR>
 nmap <leader>v :tabedit $MYVIMRC<CR>
 nmap <leader>s :write<CR>
 
-
 "UltiSnips
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips', $HOME.'/.vim/bundle/**/UltiSnips']
 " better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsExpandTrigger = "<s-tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
-
-
 
 " fugitive git bindings
 nnoremap <space>ga :Git add %:p<CR><CR>
@@ -159,7 +159,7 @@ let g:jsx_ext_required=0
 let g:ale_linters = {
         \   'javascript': ['eslint'],
         \   'jsx': ['eslint'],
-        \   'typescript': ['tslint'],
+        \   'typescript': ['eslint'],
         \   'java': []
         \ }
 let g:javascript_plugin_jsdoc = 0
@@ -254,8 +254,6 @@ nmap <Leader>8 <Plug>lightline#bufferline#go(8)
 nmap <Leader>9 <Plug>lightline#bufferline#go(9)
 nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
-
-
 nnoremap <leader>t :BTags<cr>
 nnoremap <localleader>t :Tags<cr>
 nnoremap <leader>b :Buffers<cr>
@@ -311,3 +309,47 @@ if has('persistent_undo')
     set undodir^=~/vimfiles/cache/undo//
   endif
 endif
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+inoremap <leader>t <c-x><c-]>
+inoremap <leader>n <c-x><c-n>
+inoremap <leader>o <c-x><c-n>
+inoremap <leader>f <c-x><c-f>
+inoremap <leader>l <c-x><c-l>
+
+" Advanced customization using Vim function
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <tab>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<tab>" :
+  \ coc#refresh()
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<s-tab>'

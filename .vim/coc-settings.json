@@ -1,0 +1,17 @@
+{
+  "suggest.autoTrigger": "always",
+  "suggest.timeout": 500,
+  "suggest.noselect": false,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.snippetIndicator": ">",
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "bundle/**/UltiSnips"
+  ],
+  "json.schemas": [
+    {
+      "fileMatch": ["*.swagger.json"],
+      "url": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json"
+    }
+  ]
+}
