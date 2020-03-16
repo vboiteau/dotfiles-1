@@ -57,7 +57,7 @@ inoremap <silent> ,o <c-x><C-o>
 inoremap <silent> ,t <c-x><C-]>
 let g:nord_italic=1
 let g:nord_italic_comments=1
-colorscheme Nord
+colorscheme nord
 set foldcolumn=2
 set foldlevelstart=1
 set foldmethod=indent
