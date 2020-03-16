@@ -1,10 +1,24 @@
 [user]
-    email = "vincent@decksign.com"
-    name = "Vincent Boiteau-Robert"
+	email = vboiteau94@gmail.com
+	name = Vincent Boiteau-Robert
+
+; include for all repositories inside decksign directory
+[includeIf "gitdir:~/Projects/decksign/"]
+    path = ~/.gitconfig-decksign
+
+[includeIf "gitdir:~/Projects/payfacto/"]
+    path = ~/.gitconfig-payfacto
+    
+
+[includeIf "gitdir:~/Projects/medline/"]
+    path = ~/.gitconfig-decksign
 
 [alias]
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	l = log --pretty=oneline --graph --abbrev-commit
+    lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    lg = !"git lg1"
 
 	# View the current working tree status using the short format
 	s = status -s
@@ -26,6 +40,8 @@
 
 	# Switch to a branch, creating it if necessary
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+    new-branch = "!f() { git checkout -b \"$1\" 2> /dev/null; git push --no-verify -u origin \"$1\"; }; f"
 
 	# Show verbose output about tags, branches or remotes
 	tags = tag -l
@@ -101,6 +117,7 @@
     pamgrep= !sh -c 'FILES=`git grep -l -A -0 -B 0 $1 $2 | fzf -x -m` && vim -O `echo ${FILES} | cut -d':' -f1 | xargs`' -
 	pamvimlog= !HASH=`git log --pretty=oneline | head -n 50 | fzf` && HASHZ=`echo ${HASH} | awk '{ print $1 }'` && FILES=`git show --pretty='format:' --name-only $HASHZ | grep -v -e '^$' | fzf -x -m` && vim -O ${FILES}
 	pamreset= !HASH=`git log --pretty=oneline | head -n 50 | fzf` && git reset --soft `echo ${HASH} | awk '{ print $1 }'`^
+	ctags = !.git/hooks/ctags
 
 [apply]
 
@@ -110,7 +127,7 @@
 [core]
 
 	# Use custom `.gitignore` and `.gitattributes`
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/vboiteau/.gitignore
 	attributesfile = ~/.gitattributes
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
@@ -156,6 +173,7 @@
 	# https://help.github.com/articles/signing-commits-using-gpg/
 	gpgsign = false
     verbose = true
+	template = /Users/vboiteau/.stCommitMsg
 
 [diff]
 
@@ -207,3 +225,11 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[init]
+	templatedir = ~/.git_template
