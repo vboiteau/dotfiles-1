@@ -1,13 +1,10 @@
 priority -40
-snippet creq "assign a CommonJS-style module to a const"
-const ${0:${1/(.+\/)*(\w+)(-|\b|$)(\..+$)?/$2/g}} = require('$1');
-endsnippet
 
 snippet ld "logger.debug"
 logger.debug($1);
 endsnippet
 
-snippet le "logger.error"
+snippet le "logger.error" b
 logger.error($1);
 endsnippet
 
