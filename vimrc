@@ -17,23 +17,22 @@ Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
+Plug 'aklt/plantuml-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired'
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'aklt/plantuml-syntax'
-Plug 'tyru/open-browser.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'rhysd/vim-grammarous'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
-Plug 'mtth/scratch.vim'
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 filetype plugin indent on
 syntax on
 set number
-set clipboard=unnamed
+set clipboard=unnamedplus
 set relativenumber
 set showtabline=2
 set noshowmode
@@ -48,6 +47,9 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>let g:tmux_navigator_save_on_switch = 2
+nnoremap <slient> <C-S> :update<CR>
+vnoremap <slient> <C-S> <C-C>:update<CR>
+inoremap <slient> <C-S> <C-O>:update<CR>
 set t_Co=256
 
 inoremap <silent> ,F <c-x><C-F>
@@ -73,16 +75,6 @@ set exrc
 set laststatus=2
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
-if has('python3')
-    command! -nargs=1 Py py3 <args>
-    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.7/Python
-    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.7
-else
-    command! -nargs=1 Py py <args>
-    set pythondll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
-    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/Current
-endif
-" undo
 set undofile
 set undodir=~/.undodir
 
@@ -124,7 +116,7 @@ nmap <leader>s :write<CR>
 "UltiSnips
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips', $HOME.'/.vim/bundle/**/UltiSnips']
 " better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
@@ -159,7 +151,7 @@ let g:jsx_ext_required=0
 let g:ale_linters = {
         \   'javascript': ['eslint'],
         \   'jsx': ['eslint'],
-        \   'typescript': ['eslint'],
+        \   'typescript': ['tslint'],
         \   'java': []
         \ }
 let g:javascript_plugin_jsdoc = 0
@@ -263,6 +255,7 @@ nnoremap <leader>f :GFiles<cr>
 nnoremap <leader>F :GFiles?<cr>
 nnoremap <localleader>f :Files<cr>
 nnoremap <leader>h :Helptags<cr>
+nnoremap <leader>g :GGrep<cr>
 
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
@@ -276,12 +269,6 @@ function! <SID>SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
 
 set tags='.git/tags'
 
@@ -335,21 +322,9 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <tab>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<tab>" :
-  \ coc#refresh()
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
-let g:coc_snippet_prev = '<s-tab>'
+map <C-n> :NERDTreeToggle<CR>
