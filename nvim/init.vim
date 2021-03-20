@@ -6,7 +6,14 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 endif
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'tjdevries/nlua.nvim'
+Plug 'tjdevries/lsp_extensions.nvim'
+" Neovim Tree shitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'ekalinin/dockerfile.vim'
@@ -36,6 +43,7 @@ let mapleader = ","
 let maplocalleader = ",,"
 
 set statusline=%{mode()}\ %F\ %{fugitive#statusline()}\ %m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
 
 function! MyTabFilename(n)
   let buflist = tabpagebuflist(a:n)
@@ -67,14 +75,9 @@ let g:lightline = {}
 
 let g:lightline.colorscheme = 'nord'
 
-function! CocCurrentFunction()
-    return get(b:, 'coc_current_function', '')
-endfunction
-
 let g:lightline.component_function = {
             \   'gitbranch': 'FugitiveHead',
             \   'readonly': 'LightlineReadonly',
-            \   'cocstatus': 'coc#status',
             \   'currentfunction': 'CocCurrentFunction'
             \}
 
