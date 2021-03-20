@@ -13,6 +13,12 @@ Plug 'tjdevries/lsp_extensions.nvim'
 " Neovim Tree shitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
+"
+" telescope requirements...
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
@@ -27,8 +33,6 @@ Plug 'tpope/vim-surround'
 Plug 'aklt/plantuml-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'leafgarland/typescript-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
@@ -38,6 +42,8 @@ Plug 'wellle/targets.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'arcticicestudio/nord-vim'
 call plug#end()
+
+lua require("vboiteau")
 
 let mapleader = ","
 let maplocalleader = ",,"
@@ -86,7 +92,7 @@ let g:lightline.component_visible_condition = {
             \}
 
 
-let g:lightline.active = { 
+let g:lightline.active = {
     \   'left': [ [ 'mode', 'paste' ], [ 'cocstatus', 'currentfunction', 'readonly', 'relativepath', 'modified' ] ],
     \   'right': [ ['gitbranch', 'percent', 'lineinfo' ] ]
     \}
@@ -94,3 +100,9 @@ let g:lightline.active = {
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
+
+augroup VBOITEAU
+    autocmd!
+    autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
+augroup END
