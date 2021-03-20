@@ -6,10 +6,10 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'ekalinin/dockerfile.vim'
-Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/lightline.vim'
 Plug 'sirver/ultisnips'
 Plug 'tpope/vim-fugitive'
@@ -23,21 +23,22 @@ Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-dispatch'
-Plug 'rhysd/vim-grammarous'
 Plug 'leafgarland/typescript-vim'
-Plug 'preservim/nerdtree'
-Plug 'ryanoasis/vim-devicons'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'maxmellon/vim-jsx-pretty'
 call plug#end()
 
 filetype plugin indent on
 syntax on
 set number
-set clipboard=unnamedplus
+set clipboard=unnamed
 set relativenumber
 set showtabline=2
 set noshowmode
 
 set omnifunc=syntaxcomplete#Complete
+
+set t_Co=256
 
 "TMUX
 let g:tmux_navigator_no_mappings = 1
@@ -47,32 +48,25 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>let g:tmux_navigator_save_on_switch = 2
-nnoremap <slient> <C-S> :update<CR>
-vnoremap <slient> <C-S> <C-C>:update<CR>
-inoremap <slient> <C-S> <C-O>:update<CR>
-set t_Co=256
 
-inoremap <silent> ,F <c-x><C-F>
-inoremap <silent> ,i <c-x><C-i>
-inoremap <silent> ,n <c-x><C-n>
-inoremap <silent> ,o <c-x><C-o>
-inoremap <silent> ,t <c-x><C-]>
+" Colorscheme
 let g:nord_italic=1
 let g:nord_italic_comments=1
+let g:nord_cursor_line_number_background=0
 colorscheme nord
+hi Normal ctermbg=NONE
+hi Normal guibg=NONE ctermbg=NONE
+
 set foldcolumn=2
 set foldlevelstart=1
 set foldmethod=indent
 set wildmode=longest,list,full
 set wildmenu
-set t_Co=256
-hi Normal ctermbg=NONE
-hi Normal guibg=NONE ctermbg=NONE
-inoremap <silent> ,f <C-x><C-f>
-imap jj <ESC>
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 set exrc
 set laststatus=2
+
+imap jj <ESC>
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 set undofile
@@ -97,19 +91,10 @@ map <leader>eT :tabe
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
-map <leader>fs :sf<space>%%
-map <leader>fw :find<space>%%
-map <leader>fv :vert sf<space>%%
-map <leader>fS :sf<space>
-map <leader>fW :find<space>
-map <leader>fV :vert sf<space>
-nnoremap <leader>a :argadd <c-r>=fnameescape(expand('%:p:h'))<cr>/<C-d>
 nnoremap <leader>gp :grep<space>
-nnoremap <leader>i :ilist<space>
 nnoremap <leader>j :tjump /
 nnoremap <leader>m :make<cr>
 nnoremap <leader>q :b#<cr>
-map <leader>l :ls<CR>
 nmap <leader>v :tabedit $MYVIMRC<CR>
 nmap <leader>s :write<CR>
 
@@ -124,45 +109,15 @@ let g:UltiSnipsEditSplit="vertical"
 " fugitive git bindings
 nnoremap <space>ga :Git add %:p<CR><CR>
 nnoremap <space>gs :Gstatus<CR>
-nnoremap <space>gc :Gcommit -v -q<CR>
-nnoremap <space>gt :Gcommit -v -q %:p<CR>
-nnoremap <space>gd :Gdiff<CR>
-nnoremap <space>ge :Gedit<CR>
-nnoremap <space>gr :Gread<CR>
-nnoremap <space>gw :Gwrite<CR><CR>
 nnoremap <space>gl :Glog<CR>
 nnoremap <space>gp :Ggrep<Space>
-nnoremap <space>gm :Gmove<Space>
-nnoremap <space>gb :Git branch<Space>
-nnoremap <space>go :Git checkout<Space>
-nnoremap <space>gps :Gpush<CR>
-nnoremap <space>gpl :Git! pull<CR>
+
 let g:gitgutter_realtime=0
 
 set backspace=indent,eol,start
 set shell=/bin/bash
 
 "ALE
-let g:ale_completion_enabled = 0
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 0
-let g:jsx_ext_required=0
-let g:ale_linters = {
-        \   'javascript': ['eslint'],
-        \   'jsx': ['eslint'],
-        \   'typescript': ['tslint'],
-        \   'java': []
-        \ }
-let g:javascript_plugin_jsdoc = 0
-let g:ale_linter_aliases = {'jsx': 'css'}
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-        \   'javascript': ['eslint'],
-        \   'java': [],
-        \   'typescript': ['tslint']
-        \ }
-
 set statusline=%{mode()}\ %F\ %{fugitive#statusline()}\ %m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
 function! MyTabFilename(n)
@@ -188,74 +143,48 @@ function! MyTabFilename(n)
   endif
 endfunction
 
-let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#show_number = 1
 
 let g:lightline = {}
 
 let g:lightline.colorscheme = 'nord'
 
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
 let g:lightline.component_function = {
-            \   'fugitive': 'LightlineFugitive',
-            \   'readonly': 'LightlineReadonly'
+            \   'gitbranch': 'FugitiveHead',
+            \   'readonly': 'LightlineReadonly',
+            \   'cocstatus': 'coc#status',
+            \   'currentfunction': 'CocCurrentFunction'
             \}
 
 let g:lightline.component_visible_condition = {
             \   'readonly': '(&filetype!="help"&& &readonly)'
             \}
 
-let g:lightline.component_expand = {
-    \   'linter_checking': 'lightline#ale#checking',
-    \   'linter_warnings': 'lightline#ale#warnings',
-    \   'linter_errors': 'lightline#ale#errors',
-    \   'linter_ok': 'lightline#ale#ok',
-    \ }
-
-
-let g:lightline.component_type = {
-    \   'linter_checking': 'left',
-    \   'linter_warnings': 'warning',
-    \   'linter_errors': 'error',
-    \   'linter_ok': 'left',
-    \}
 
 let g:lightline.active = { 
-    \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ],
-    \   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], [ 'fugitive' ]]
+    \   'left': [ [ 'mode', 'paste' ], [ 'cocstatus', 'currentfunction', 'readonly', 'relativepath', 'modified' ] ],
+    \   'right': [ ['gitbranch', 'percent', 'lineinfo' ] ]
     \}
 
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
-function! LightlineFugitive()
-    if exists('*fugitive#head')
-        let branch = fugitive#head()
-        return branch !=# '' ? ''.branch : ''
-    endif
-    return ''
-endfunction
 
-nmap <Leader>1 <Plug>lightline#bufferline#go(1)
-nmap <Leader>2 <Plug>lightline#bufferline#go(2)
-nmap <Leader>3 <Plug>lightline#bufferline#go(3)
-nmap <Leader>4 <Plug>lightline#bufferline#go(4)
-nmap <Leader>5 <Plug>lightline#bufferline#go(5)
-nmap <Leader>6 <Plug>lightline#bufferline#go(6)
-nmap <Leader>7 <Plug>lightline#bufferline#go(7)
-nmap <Leader>8 <Plug>lightline#bufferline#go(8)
-nmap <Leader>9 <Plug>lightline#bufferline#go(9)
-nmap <Leader>0 <Plug>lightline#bufferline#go(10)
-
-nnoremap <leader>t :BTags<cr>
-nnoremap <localleader>t :Tags<cr>
-nnoremap <leader>b :Buffers<cr>
-nnoremap <leader>c :BCommits<cr>
+nnoremap <localleader>b :Buffers<cr>
 nnoremap <localleader>c :Commits<cr>
-nnoremap <leader>f :GFiles<cr>
-nnoremap <leader>F :GFiles?<cr>
-nnoremap <localleader>f :Files<cr>
-nnoremap <leader>h :Helptags<cr>
-nnoremap <leader>g :GGrep<cr>
+nnoremap <localleader>f :GFiles<cr>
+nnoremap <localleader>F :GFiles?<cr>
+nnoremap <localleader>h :Helptags<cr>
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
 
 nnoremap <leader>S :s/\<<C-r><C-w>\>/
 nnoremap <leader>gS :%s/\<<C-r><C-w>\>/
@@ -273,12 +202,8 @@ endfunc
 set tags='.git/tags'
 
 " Try to keep backups in one system-appropriate dir
-set backup
-set backupdir^=~/.vim/cache/backup
-if has('win32') || has('win64')
-  set backupdir-=~/.vim/cache/backup
-  set backupdir^=~/vimfiles/cache/backup
-endif" swp
+set nobackup
+set nowritebackup
 
 " Try to keep swapfiles in one system-appropriate dir
 set directory^=~/.vim/cache/swap//
@@ -286,33 +211,6 @@ if has('win32') || has('win64')
   set directory-=~/.vim/cache/swap//
   set directory^=~/vimfiles/cache/swap//
 endif
-
-" Keep undo files, hopefully in a dedicated directory
-if has('persistent_undo')
-  set undofile
-  set undodir^=~/.vim/cache/undo//
-  if has('win32') || has('win64')
-    set undodir-=~/.vim/cache/undo//
-    set undodir^=~/vimfiles/cache/undo//
-  endif
-endif
-
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-
-inoremap <leader>t <c-x><c-]>
-inoremap <leader>n <c-x><c-n>
-inoremap <leader>o <c-x><c-n>
-inoremap <leader>f <c-x><c-f>
-inoremap <leader>l <c-x><c-l>
 
 " Advanced customization using Vim function
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
@@ -327,4 +225,114 @@ command! -bang -nargs=* GGrep
   \   'git grep --line-number '.shellescape(<q-args>), 0,
   \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
-map <C-n> :NERDTreeToggle<CR>
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+inoremap <leader>t <c-x><c-]>
+inoremap <leader>n <c-x><c-n>
+inoremap <leader>o <c-x><c-n>
+inoremap <leader>f <c-x><c-f>
+inoremap <leader>l <c-x><c-l>
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+set signcolumn=yes
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  autocmd BufNewFile typescript,json,javascript :CocRestart<CR>
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <leader>a  :<C-u>CocList diagnostics<cr>
+" Show commands.
+nnoremap <silent><nowait> <leader>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+
+vmap <C-j> <Plug>(coc-snippets-select)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" coc.nvim
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:coc_disable_transparent_cursor=1

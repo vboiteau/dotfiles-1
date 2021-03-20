@@ -1,0 +1,30 @@
+snippet fc "react function component" b
+import React, { FC } from "react";
+
+export interface $1Props {
+}
+
+export const ${1:ComponentName}: FC<$1Props> = ({
+}) => (
+    $0
+);
+endsnippet
+
+snippet stories "storybook stories for a component" b
+import React from 'react';
+import {Meta,Story} from '@storybook/react/types-6-0';
+import {$1, $1Props} from './$1';
+
+export default {
+    title: '${2:ProjectName}/$1',
+    component: ${1: ComponentName},
+    argTypes: {}
+} as Meta;
+
+const Template: Story<$1Props> = (args) => <$1 {...args}></$1>;
+
+export const ${3:BaseStory} = Template.bind({});
+
+$3.args = {
+};
+endsnippet
