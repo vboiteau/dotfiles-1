@@ -7,7 +7,6 @@ require('telescope').setup {
 
         mappings = {
             i = {
-                ["<C-c>"] = false,
                 ["<C-q>"] = actions.send_to_qflist,
             },
         }
@@ -19,3 +18,12 @@ require('telescope').setup {
         }
     }
 }
+
+local M = {}
+M.search_dotfiles = function() 
+    require("telescope.builtin").find_files({
+        prompt_title = "< DotFiles >",
+        cwd = "$HOME/Projects/Perso/dotfiles",
+    })
+end
+return M
