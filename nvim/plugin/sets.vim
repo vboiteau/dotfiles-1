@@ -5,7 +5,6 @@ set clipboard=unnamed
 set relativenumber
 set showtabline=2
 set noshowmode
-set omnifunc=syntaxcomplete#Complete
 set t_Co=256
 set foldcolumn=2
 set foldlevelstart=1
@@ -23,6 +22,7 @@ set undodir=~/.vim/undodir
 set colorcolumn=100,180
 set backspace=indent,eol,start
 set shell=/bin/bash
+set termguicolors
 
 set directory^=~/.vim/cache/swap//
 if has('win32') || has('win64')
@@ -54,3 +54,4 @@ set scrolloff=8
 
 set tags='.git/tags'
 
+let g:completion_enable_auto_popup = 0

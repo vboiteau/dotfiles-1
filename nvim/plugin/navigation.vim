@@ -1,7 +1,9 @@
 nnoremap <C-n> :cnext<CR>
+nnoremap <C-N> :lnext<CR>
+nnoremap <C-P> :lprev<CR>
 nnoremap <C-p> :cprev<CR>
 nnoremap <C-q> :call ToggleQFList(1)<CR>
-nnoremap <C-o> :call ToggleQFList(0)<CR>
+nnoremap <C-L> :call ToggleQFList(0)<CR>
 
 let g:the_primeagen_qf_l = 0
 let g:the_primeagen_qf_g = 0

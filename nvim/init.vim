@@ -1,15 +1,11 @@
-set runtimepath^=~/.vim runtimepath+=~/.vim/after runtimepath+=~/.vim/bundle/ultisnips/
-
 call plug#begin('~/.vim/bundle')
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 endif
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'tjdevries/nlua.nvim'
-Plug 'tjdevries/lsp_extensions.nvim'
+
 " Neovim Tree shitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
@@ -18,6 +14,7 @@ Plug 'nvim-treesitter/playground'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
@@ -43,6 +40,8 @@ Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 lua require("vboiteau")
+
+lua require'nvim-treesitter.configs'.setup { ensure_installed = "maintained", highlight = { enable = true } }
 
 let mapleader = ","
 let maplocalleader = ",,"
@@ -99,9 +98,3 @@ let g:lightline.active = {
 function! LightlineReadonly()
     return &readonly ? '' : ''
 endfunction
-
-augroup VBOITEAU
-    autocmd!
-    autocmd BufWritePre * %s/\s\+$//e
-    autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
-augroup END
